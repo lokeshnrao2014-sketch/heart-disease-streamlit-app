@@ -46,23 +46,7 @@ div.stDownloadButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-# Load CSV directly from GitHub raw link
-test_data_url = "https://raw.githubusercontent.com/lokeshnrao2014-sketch/heart-disease-streamlit-app/main/test_data.csv"
 
-@st.cache_data(show_spinner=False)
-def load_test_csv():
-    return pd.read_csv(test_data_url)
-
-test_df = load_test_csv()
-test_csv = test_df.to_csv(index=False).encode("utf-8")
-
-# Download button
-st.download_button(
-    label="⬇ Download Test Data",
-    data=test_csv,
-    file_name="test_data.csv",
-    mime="text/csv"
-)
 
 col1, col2, col3 = st.columns([1, 4, 1])
 with col2:
@@ -83,6 +67,42 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+# ----------- Right-aligned Download Test Data Button -----------
+
+st.markdown("""
+<style>
+.download-right {
+    text-align: right;
+}
+div.stDownloadButton > button {
+    font-size: 12px;
+    padding: 4px 10px;
+    background-color: #ff4b4b;
+    color: white;
+    border-radius: 6px;
+}
+</style>
+""", unsafe_allow_html=True)
+
+@st.cache_data(show_spinner=False)
+def load_test_csv():
+    return pd.read_csv("test_data.csv")
+
+test_df = load_test_csv()
+test_csv = test_df.to_csv(index=False).encode("utf-8")
+
+# Right alignment container
+st.markdown('<div class="download-right">', unsafe_allow_html=True)
+
+st.download_button(
+    label="⬇ Download Test Data",
+    data=test_csv,
+    file_name="test_data.csv",
+    mime="text/csv"
+)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
 
 # ----------- Load Trained Models and scalar obtained from the training of models -----------
 
