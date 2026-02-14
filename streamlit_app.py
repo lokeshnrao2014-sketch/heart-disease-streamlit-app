@@ -31,7 +31,38 @@ from sklearn.metrics import (
 
 # Set browser tab title and layout style
 st.set_page_config(page_title="Machine Learning Assignment 2", layout="centered")
+# ----------- Download Sample Test Data Button (Top-Left) -----------
 
+# Small button styling
+st.markdown("""
+<style>
+div.stDownloadButton > button {
+    font-size: 12px;
+    padding: 4px 10px;
+    background-color: #ff4b4b;
+    color: white;
+    border-radius: 6px;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# Load CSV directly from GitHub raw link
+test_data_url = "https://raw.githubusercontent.com/lokeshnrao2014-sketch/heart-disease-streamlit-app/main/test_data.csv"
+
+@st.cache_data(show_spinner=False)
+def load_test_csv():
+    return pd.read_csv(test_data_url)
+
+test_df = load_test_csv()
+test_csv = test_df.to_csv(index=False).encode("utf-8")
+
+# Download button
+st.download_button(
+    label="⬇ Download Test Data",
+    data=test_csv,
+    file_name="test_data.csv",
+    mime="text/csv"
+)
 
 col1, col2, col3 = st.columns([1, 4, 1])
 with col2:
@@ -48,7 +79,7 @@ st.markdown(
 
     <div class="main-title">Machine Learning Assignment 2</div>
     <div class="sub-title">Heart Disease Prediction – Different Models</div>
-    <div class="name">Created by: <b>Lokesh N Rao</b></div>
+    <div class="name">Created by: <b>Lokesh N Rao - 2025 AA 05309</b></div>
     """,
     unsafe_allow_html=True
 )
